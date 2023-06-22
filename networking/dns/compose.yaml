@@ -1,0 +1,47 @@
+version: "3.8"
+name: adguard
+
+services:
+  adguard:
+    image: adguard/adguardhome
+    container_name: adguardhome
+    restart: unless-stopped
+
+    volumes:
+      # - "./volumes/data:/opt/adguardhome/work"
+      # - "./volumes/config:/opt/adguardhome/conf"
+      - "data:/opt/adguardhome/work"
+      - "config:/opt/adguardhome/conf"
+
+    ports:
+      # Plain DNS.
+      - 53:53/tcp
+      - 53:53/udp
+
+      # # Add if you are going to run AdGuard Home as a DNSCrypt server.
+      # - 5443:5443/tcp
+      # - 5443:5443/udp
+
+      # # Add if you intend to use AdGuard Home as a DHCP server.
+      # - 67:67/udp
+      # - 68:68/tcp
+      # - 68:68/udp
+
+      # Add if you are going to use AdGuard Home's admin panel
+      # as well as run AdGuard Home as an HTTPS/DNS-over-HTTPS server.
+      - 80:80/tcp
+      - 443:443/tcp
+      - 443:443/udp
+      - 3000:3000/tcp
+
+    networks:
+      custom:
+
+volumes:
+  data:
+  config:
+
+networks:
+  custom:
+    name: dns
+    driver: bridge

@@ -1,0 +1,7 @@
+version: "3.8"
+name: sample
+
+networks:
+  proxy:
+    name: $NETWORK_NAME
+    # external: true

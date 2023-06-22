@@ -1,0 +1,14 @@
+services:
+  python:
+    build: $PYTHON_IMAGE
+    image: code_py
+    container_name: python
+
+    environment:
+      THIRD_PARTY_LOGS: $THIRD_PARTY_LOGS
+      LOG_LEVEL: $LOG_LEVEL
+
+      envVariable: $envVariable
+
+    networks:
+      proxy:

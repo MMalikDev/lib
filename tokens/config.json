@@ -1,0 +1,20 @@
+{
+  "include": ["tokens/theme/**/*.json"],
+  "source": ["tokens/component/**/*.json"],
+  "platforms": {
+    "css": {
+      "transformGroup": "css",
+      "buildPath": "dist/",
+      "files": [
+        {
+          "destination": "variables.css",
+          "format": "css/variables",
+          "options": {
+            "outputReferences": true,
+            "showFileHeader": false
+          }
+        }
+      ]
+    }
+  }
+}

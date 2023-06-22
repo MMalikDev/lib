@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Default template for website" />
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+    <link rel="stylesheet" href="./styles/index.css" />
+    <script src="index.js" defer></script>
+    <title>Website</title>
+  </head>
+
+  <body>
+    <header class="page-header">
+      <a class="skip-navigation-link" href="#content">Skip Navigation</a>
+
+      <div class="logo">
+        <a href="#">
+          <img src="./assets/logo.svg" alt="logo" />
+        </a>
+      </div>
+
+      <nav aria-label="Main">
+        <button
+          id="menu-toggle"
+          class="menu-toggle"
+          aria-expanded="false"
+          aria-controls="primary-navigation"
+        >
+          <img src="./assets/menu.svg" alt="menu-toggle" />
+
+          <span class="visually-hidden">menu-toggle</span>
+        </button>
+
+        <ul
+          id="primary-navigation"
+          class="primary-navigation"
+          data-state="closed"
+        >
+          <li class="nav-item">
+            <a class="nav-link" href="/" aria-current="page"> Home </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">#</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">#</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="content">
+      <div class="container">
+        <div class="wrapper">
+          <h1>Hello World</h1>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <small class="copyrights">
+        &copy; <span id="currentYear"></span>. All Rights Reserved
+      </small>
+    </footer>
+  </body>
+</html>

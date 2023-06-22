@@ -1,0 +1,24 @@
+# -- Configure your CertificateResolver here...
+certificatesResolvers:
+  production:
+    acme:
+      email: example@email.com
+      storage: /etc/traefik/certs/acme.json
+      caServer: "https://acme-v02.api.letsencrypt.org/directory"
+
+      # -- (Optional) Configure DNS Challenge
+      dnsChallenge:
+        provider: cloudflare
+        resolvers:
+          - "1.1.1.1:53"
+          - "8.8.8.8:53"
+
+  staging:
+    acme:
+      email: example@email.com
+      storage: /etc/traefik/certs/acme.json
+      caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
+
+      # -- (Optional) Remove this section, when using DNS Challenge
+      httpChallenge:
+        entryPoint: http

@@ -1,0 +1,65 @@
+version: "3.8"
+name: sample
+
+networks:
+  proxy:
+    name: $NETWORK_NAME
+    external: true
+
+volumes:
+  db_data:
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+
+    environment:
+      POSTGRES_DB: $POSTGRES_DB
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+    networks:
+      proxy:
+
+  semaphore:
+    image: semaphoreui/semaphore
+    container_name: semaphore
+    restart: unless-stopped
+
+    depends_on:
+      - postgres
+
+    environment:
+      SEMAPHORE_DB_DIALECT: $SEMAPHORE_DB_DIALECT
+      SEMAPHORE_DB_USER: $SEMAPHORE_DB_USER
+      SEMAPHORE_DB_PASS: $SEMAPHORE_DB_PASS
+      SEMAPHORE_DB_HOST: $SEMAPHORE_DB_HOST
+      SEMAPHORE_DB_PORT: $SEMAPHORE_DB_PORT
+      SEMAPHORE_DB: $SEMAPHORE_DB
+
+      SEMAPHORE_ADMIN: $SEMAPHORE_ADMIN
+      SEMAPHORE_ADMIN_NAME: $SEMAPHORE_ADMIN_NAME
+      SEMAPHORE_ADMIN_EMAIL: $SEMAPHORE_ADMIN_EMAIL
+      SEMAPHORE_ADMIN_PASSWORD: $SEMAPHORE_ADMIN_PASSWORD
+
+      SEMAPHORE_PLAYBOOK_PATH: $SEMAPHORE_PLAYBOOK_PATH
+      SEMAPHORE_ACCESS_KEY_ENCRYPTION: $SEMAPHORE_ACCESS_KEY_ENCRYPTION
+      ANSIBLE_HOST_KEY_CHECKING: $ANSIBLE_HOST_KEY_CHECKING
+
+    # volumes:
+    #   - ./volumes/inventory/:/inventory:ro
+    #   - ./volumes/config/:/etc/semaphore:rw
+    #   - ./volumes/authorized-keys/:/authorized-keys:ro
+
+    networks:
+      proxy:
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.semaphore.loadbalancer.server.port=$SEMAPHORE_PORT"
+      - "traefik.http.routers.semaphore.rule=Host(`dashboard.${DOMAIN}`)"

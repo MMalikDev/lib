@@ -1,0 +1,117 @@
+version: "3.8"
+name: sample
+
+services:
+  web:
+    build: $WEB_IMAGE
+    image: server_web
+    container_name: web
+    restart: unless-stopped
+
+    command: ["npm", "run", "docker"]
+
+    environment:
+      WEB_PORT: $WEB_PORT
+
+    ports:
+      - $HOST_WEB_PORT:$WEB_PORT
+    networks:
+      proxy:
+
+  api:
+    build: $API_IMAGE
+    image: server_api
+    container_name: api
+    restart: unless-stopped
+
+    depends_on:
+      - database
+
+    environment:
+      DB_ROOT_USERNAME: $DB_ROOT_USERNAME
+      DB_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+      COLLECTION: $COLLECTION
+      DB: $DB_NAME
+      DB_HOST: $DB_HOST
+      API_PORT: $API_PORT
+      API_HOST: $API_HOST
+
+    command: ["npm", "run", "docker"]
+
+    ports:
+      - $HOST_API_PORT:$API_PORT
+    networks:
+      proxy:
+
+  database:
+    image: mongo
+    container_name: database
+    restart: always
+
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: $DB_ROOT_USERNAME
+      MONGO_INITDB_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+
+    volumes:
+      - database_data:$DB_DATA
+      - $DB_VOLUME_DATA:$DB_DATA
+      - database_config:$DB_DATA
+      - $DB_VOLUME_CONFIG:$DB_CONFIG
+
+    ports:
+      - $HOST_DB_PORT:$DB_PORT
+    networks:
+      proxy:
+
+  javascript:
+    build: $JAVASCRIPT_IMAGE
+    image: code_js
+    container_name: javascript
+
+    depends_on:
+      - database
+
+    environment:
+      DEBUG: $DEBUG
+      SIZE: $SIZE
+      DB_HOST: $DB_HOST
+      DB_NAME: $DB_NAME
+      COLLECTION: $COLLECTION
+      DB_ROOT_USERNAME: $DB_ROOT_USERNAME
+      DB_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+
+    command: ["npm", "run", "faker"]
+
+    networks:
+      proxy:
+
+  python:
+    build: $PYTHON_IMAGE
+    image: code_py
+    container_name: python
+
+    depends_on:
+      - database
+
+    environment:
+      DEBUG: $DEBUG
+      SIZE: $SIZE
+      DB_HOST: $DB_HOST
+      DB_NAME: $DB_NAME
+      COLLECTION: $COLLECTION
+      DB_ROOT_USERNAME: $DB_ROOT_USERNAME
+      DB_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+
+    command: ["python3", "main.py"]
+
+    networks:
+      proxy:
+
+volumes:
+  database_data:
+  database_config:
+
+networks:
+  proxy:
+    name: $NETWORK_NAME
+    driver: bridge

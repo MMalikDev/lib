@@ -1,0 +1,7 @@
+services:
+  rust:
+    build: $RUST_IMAGE
+    image: code_rust
+    container_name: rust
+    networks:
+      proxy:

@@ -1,0 +1,14 @@
+[core]
+	editor = codium --wait
+	autocrlf = true
+[init]
+	defaultBranch = main
+[user]
+	name = User Name
+	email = example+github@mail.com
+
+[includeIf "gitdir:~/github/private/"]
+	path = ./gitconfig-private
+
+[includeIf "gitdir:~/github/public/"]
+	path = ./gitconfig-public

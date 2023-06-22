@@ -1,0 +1,7 @@
+services:
+  cpp:
+    build: $CPP_IMAGE
+    image: code_cpp
+    container_name: cpp
+    networks:
+      proxy:

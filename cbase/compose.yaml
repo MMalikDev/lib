@@ -1,0 +1,7 @@
+services:
+  cbase:
+    build: $C_IMAGE
+    image: code_cbase
+    container_name: cbase
+    networks:
+      proxy:

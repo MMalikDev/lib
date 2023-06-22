@@ -1,0 +1,19 @@
+services:
+  svelte:
+    build: $SVELTE_IMAGE
+    image: server_svelte
+    container_name: svelte
+    restart: unless-stopped
+
+    environment:
+      WEB_PORT: $SVELTE_PORT
+
+    ports:
+      - $HOST_SVELTE_PORT:$SVELTE_PORT
+
+    networks:
+      proxy:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.svelte.rule=Host(`svelte.localhost`)"
+      - "traefik.http.services.svelte.loadbalancer.server.port=$SVELTE_PORT"

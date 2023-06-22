@@ -1,0 +1,31 @@
+name: MacOS
+run-name: Checking Compatibility with Different OS
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-linux:
+    runs-on: linux-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build MacOS
+        run: ./build.sh
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build MacOS
+        run: ./build.sh
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build MacOS
+        run: ./build.sh

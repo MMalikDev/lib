@@ -1,0 +1,21 @@
+name: template
+
+networks:
+  proxy:
+    external: true
+
+labels:
+  - "traefik.enable=true"
+  - "traefik.docker.network=proxy"
+  - "traefik.http.services.${APPLICATION}.loadbalancer.server.port=$PORT"
+  - "traefik.http.routers.${APPLICATION}.rule=Host(`${APPLICATION}.${DOMAIN}`)"
+
+  - "traefik.http.middlewares.${APPLICATION}-https-redirect.redirectscheme.scheme=https"
+  - "traefik.http.routers.${APPLICATION}.middlewares=${APPLICATION}-https-redirect"
+
+  - "traefik.http.routers.${APPLICATION}.entrypoints=http"
+  - "traefik.http.routers.${APPLICATION}-secure.entrypoints=https"
+
+  - "traefik.http.routers.${APPLICATION}-secure.tls=true"
+  - "traefik.http.routers.${APPLICATION}-secure.service=$APPLICATION"
+  - "traefik.http.routers.${APPLICATION}-secure.tls.certresolver=cloudflare"

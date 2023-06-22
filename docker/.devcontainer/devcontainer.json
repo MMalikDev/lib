@@ -1,0 +1,65 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-in-docker
+{
+  "name": "Development",
+  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+  "image": "mcr.microsoft.com/devcontainers/base:bullseye",
+
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "20.10",
+      "enableNonRootDocker": "false",
+      "moby": "false"
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "optimize": true,
+      "version": "3.11"
+    }
+  },
+
+  "forwardPorts": [8000],
+  "portsAttributes": {
+    "8000": {
+      "label": "Website"
+    }
+  },
+
+  "postCreateCommand": "pip install -r requirements.txt",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.black-formatter",
+
+        "esbenp.prettier-vscode",
+        "streetsidesoftware.code-spell-checker"
+      ],
+      "settings": {
+        "workbench.colorTheme": "Default Dark Modern",
+        "workbench.panel.defaultLocation": "right",
+        "workbench.iconTheme": "vscode-icons",
+
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+        "[python]": {
+          "editor.formatOnSave": true,
+          "editor.defaultFormatter": "ms-python.black-formatter"
+        },
+
+        "editor.minimap.renderCharacters": false,
+        "editor.minimap.autohide": true,
+        "editor.minimap.scale": 2,
+
+        "editor.rulers": [74, 80, 100, 120, 160, 160],
+        "workbench.colorCustomizations": {
+          "editorRuler.foreground": "#80808020"
+        }
+      }
+    }
+  }
+
+  // "remoteUser": "root"
+}

@@ -1,0 +1,11 @@
+services:
+  javascript:
+    build: $JAVASCRIPT_IMAGE
+    image: code_js
+    container_name: javascript
+
+    environment:
+      envVariable: $envVariable
+
+    networks:
+      proxy:

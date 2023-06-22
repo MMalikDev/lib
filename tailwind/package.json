@@ -1,0 +1,6 @@
+{
+  "test": "npx tailwindcss -i ./src/styles.css -o ./dist/styles.css && cp ./src/*.{html,js} ./dist",
+  "devDependencies": {
+    "tailwindcss": "^3.3.2"
+  }
+}
